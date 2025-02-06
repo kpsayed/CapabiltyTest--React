@@ -3,6 +3,8 @@ import axios from "axios";
 
 const API_URL = "https://localhost:7059/v1/api"; 
 
+
+
 export const fetchStudents = createAsyncThunk("students/fetchAll", async () => {
   const response = await axios.get(`${API_URL}/Students`);
   return response.data;
@@ -16,32 +18,36 @@ export const addStudent = createAsyncThunk("students/add", async (student) => {
 });
 
 
-// Fetch a student's nationality
-export const fetchStudentNationality = createAsyncThunk(
+  
+  export const fetchStudentNationality = createAsyncThunk(
     "students/fetchNationality",
     async (id) => {
-      const response = await axios.get(`/api/Students/${id}/Nationality`);
+      const response = await axios.get(`${API_URL}/Students/${id}/Nationality`);
       return response.data;
     }
   );
-  
-  // Fetch all nationalities
+
   export const fetchNationalities = createAsyncThunk(
     "students/fetchNationalities",
     async () => {
-      const response = await axios.get("/api/Nationalities");
+      const response = await axios.get(`${API_URL}/Nationalities`);
       return response.data;
     }
   );
   
-  // Update a student's nationality
+
   export const updateStudentNationality = createAsyncThunk(
     "students/updateNationality",
     async ({ studentId, nationalityId }) => {
-      const response = await axios.put(`/api/Students/${studentId}/Nationality/${nationalityId}`);
+    debugger;
+      const response = await axios.put(`${API_URL}/Students/${studentId}/Nationality/${nationalityId}`);
       return response.data;
     }
   );
+
+
+
+  
 
 const studentSlice = createSlice({
   name: "students",
@@ -62,6 +68,19 @@ const studentSlice = createSlice({
       })
       .addCase(addStudent.fulfilled, (state, action) => {
         state.students.push(action.payload);
+      })
+
+
+      .addCase(fetchStudentNationality.fulfilled, (state, action) => {
+        state.student = action.payload;
+      })
+      .addCase(fetchNationalities.fulfilled, (state, action) => {
+        state.nationalities = action.payload;
+      })
+      .addCase(updateStudentNationality.fulfilled, (state, action) => {
+        if (state.student) {
+          state.student.nationalityId = action.payload.nationalityId;
+        }
       });
   },
 });
