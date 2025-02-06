@@ -3,16 +3,21 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStudents } from "../redux/studentSlice";
 
+
+
 const StudentDetails = () => {
+ 
   const { id } = useParams();
   const dispatch = useDispatch();
   const { students } = useSelector((state) => state.student);
-
+  debugger;
+  console.log(students);
   useEffect(() => {
     dispatch(fetchStudents());
   }, [dispatch]);
 
-  const student = students.find((s) => s.ID.toString() === id);
+
+  const student = students.find((s) => s.id.toString() === id);
 
   if (!student) {
     return <p>Loading...</p>;

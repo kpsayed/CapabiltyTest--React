@@ -13,7 +13,7 @@ const HomePage = () => {
       dispatch(fetchStudents());
     }
   }, [status, dispatch]);
-console.log(students);
+
 
   return (
     <div>
@@ -38,9 +38,10 @@ console.log(students);
               <td>{student.lastName}</td>
               <td>{new Date(student.dateOfBirth).toLocaleDateString()}</td>
               <td>
-                <button onClick={() => navigate(`/student/${student.ID}`)}>
+                <button onClick={() => navigate(`/student/${student.id}`)}>
                   View Details
                 </button>
+                
               </td>
             </tr>
           ))}
