@@ -39,7 +39,6 @@ export const addStudent = createAsyncThunk("students/add", async (student) => {
   export const updateStudentNationality = createAsyncThunk(
     "students/updateNationality",
     async ({ studentId, nationalityId }) => {
-    debugger;
       const response = await axios.put(`${API_URL}/Students/${studentId}/Nationality/${nationalityId}`);
       return response.data;
     }
@@ -47,6 +46,18 @@ export const addStudent = createAsyncThunk("students/add", async (student) => {
 
 
 
+
+
+  export const updateStudent = createAsyncThunk(
+    "students/update",
+    async (student) => {
+      console.log("API Call:", student);
+      const response = await axios.put(`${API_URL}/Students/${student.id}`, student);
+      console.log("API Response:", response.data);
+      return response.data;
+    }
+  );
+  
   
 
 const studentSlice = createSlice({
@@ -81,7 +92,26 @@ const studentSlice = createSlice({
         if (state.student) {
           state.student.nationalityId = action.payload.nationalityId;
         }
+      })
+
+
+
+
+
+      .addCase(updateStudent.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateStudent.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const index = state.students.findIndex(s => s.id === action.payload.id);
+        if (index !== -1) state.students[index] = action.payload;
+      })
+      .addCase(updateStudent.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
+
+
   },
 });
 

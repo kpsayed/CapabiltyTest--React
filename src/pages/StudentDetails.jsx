@@ -6,6 +6,7 @@ import {
   fetchNationalities,
   updateStudentNationality,
 } from "../redux/studentSlice";
+import { Link } from "react-router-dom";
 
 const StudentDetails = () => {
   const { id } = useParams();
@@ -40,13 +41,17 @@ const StudentDetails = () => {
   return (
     <div>
       <h1>Student Details</h1>
+
+
+     <Link to={`/students/${id}/edit`}>
+      <button>Edit Basic Details</button>
+    </Link>
+
       <p>First Name: {student.firstName}</p>
       <p>Last Name: {student.lastName}</p>
-      {/* <p>Current Nationality: {student.nationalityId}</p> */}
       <label>Change Nationality:</label>
       <select value={selectedNationality} onChange={handleNationalityChange}>
-      {console.log('selectedNationality:', selectedNationality)}
-      {console.log('nationalities:', nationalities)}
+
 
       {nationalities && nationalities.length > 0 ? (
        
@@ -55,12 +60,19 @@ const StudentDetails = () => {
       ))) : (<option disabled>Loading Nationalities...</option>)}
     
   
+
 </select>
 
 
 
 
+
+
       <button onClick={handleUpdateNationality}>Update Nationality</button>
+
+
+
+      
     </div>
   );
 };

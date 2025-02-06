@@ -39,8 +39,9 @@ const HomePage = () => {
               <td>{new Date(student.dateOfBirth).toLocaleDateString()}</td>
               <td>
                 <button onClick={() => navigate(`/student/${student.id}`)}>
-                  View Details
+                  Update Data
                 </button>
+               
                 
               </td>
             </tr>
