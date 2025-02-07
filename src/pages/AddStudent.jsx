@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addStudent } from "../redux/studentSlice";
 import { useNavigate } from "react-router-dom";
 
-const AddStudent = () => {
+const AddStudent = ({goToHome}) => {
   const [student, setStudent] = useState({ firstName: "", lastName: "", dateOfBirth: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ const AddStudent = () => {
         <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} required />
         <input type="date" name="dateOfBirth" onChange={handleChange} required />
         <button type="submit">Add Student</button>
+        <button onClick={goToHome} style={{ background: "blue", color: "white" }}>Home</button>
       </form>
     </div>
   );

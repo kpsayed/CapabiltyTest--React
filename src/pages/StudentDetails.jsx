@@ -8,7 +8,8 @@ import {
 } from "../redux/studentSlice";
 import { Link } from "react-router-dom";
 
-const StudentDetails = () => {
+const StudentDetails = ({ goToHome }) => {
+
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -50,18 +51,21 @@ const StudentDetails = () => {
       <p>First Name: {student.firstName}</p>
       <p>Last Name: {student.lastName}</p>
       <label>Change Nationality:</label>
-      <select value={selectedNationality} onChange={handleNationalityChange}>
-
-
-      {nationalities && nationalities.length > 0 ? (
-       
-      nationalities.map((nation) => (
-      <option key={nation.id} value={nation.id}> {nation.name}</option> 
-      ))) : (<option disabled>Loading Nationalities...</option>)}
-    
   
+               <select value={selectedNationality} onChange={handleNationalityChange}>
+
+
+{nationalities && nationalities.length > 0 ? (
+ 
+nationalities.map((nation) => (
+<option key={nation.id} value={nation.id}> {nation.name}</option> 
+))) : (<option disabled>Loading Nationalities...</option>)}
+
+
 
 </select>
+        
+
 
 
 
@@ -69,11 +73,13 @@ const StudentDetails = () => {
 
 
       <button onClick={handleUpdateNationality}>Update Nationality</button>
+      <br/>
 
-
-
+      <button onClick={goToHome} style={{ background: "blue", color: "white" }}>Home</button>
+ 
       
     </div>
+
   );
 };
 

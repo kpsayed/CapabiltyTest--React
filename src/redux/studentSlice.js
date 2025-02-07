@@ -3,6 +3,10 @@ import axios from "axios";
 
 const API_URL = "https://localhost:7059/v1/api"; 
 
+export const fetchToken = createAsyncThunk("auth/fetchToken", async (role) => {
+  const response = await axios.post("/get-token", { role });
+  return response.data.token;
+});
 
 
 export const fetchStudents = createAsyncThunk("students/fetchAll", async () => {
@@ -62,10 +66,33 @@ export const addStudent = createAsyncThunk("students/add", async (student) => {
 
 const studentSlice = createSlice({
   name: "students",
-  initialState: { students: [], status: "idle", error: null },
-  reducers: {},
+  initialState: { students: [], 
+    role: localStorage.getItem("role") || "Admin",
+    token: localStorage.getItem("token") || null,
+    status: "idle", error: null },
+  // reducers: {},
+  reducers: {
+    setRole: (state, action) => {
+        state.role = action.payload;
+        localStorage.setItem("role", action.payload);
+    },
+    logout: (state) => {
+      state.role = null;
+      state.token = null;
+      localStorage.removeItem("role");
+      localStorage.removeItem("token");
+    }
+},
   extraReducers: (builder) => {
     builder
+
+    .addCase(fetchToken.fulfilled, (state, action) => {
+      state.token = action.payload;
+      localStorage.setItem("token", action.payload);
+    })
+
+
+
       .addCase(fetchStudents.pending, (state) => {
         state.status = "loading";
       })
@@ -115,4 +142,5 @@ const studentSlice = createSlice({
   },
 });
 
+export const { setRole, logout } = studentSlice.actions;
 export default studentSlice.reducer;

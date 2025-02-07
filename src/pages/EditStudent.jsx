@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateStudent } from "../redux/studentSlice";
+import { fetchStudents,updateStudent } from "../redux/studentSlice";
 
-const EditStudent = () => {
+
+const EditStudent = ({goToHome}) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -65,6 +66,8 @@ const EditStudent = () => {
         </div>
 
         <button type="submit">Update</button>
+
+<button onClick={goToHome} style={{ background: "blue", color: "white" }}>Home</button>
       </form>
     </div>
   );
